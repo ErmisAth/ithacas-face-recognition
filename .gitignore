@@ -108,3 +108,6 @@ venv.bak/
 
 # mac metadata
 .DS_Store
+
+# Visual Studio Code settings
+.vscode
