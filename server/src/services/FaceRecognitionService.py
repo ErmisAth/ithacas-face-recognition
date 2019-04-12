@@ -1,27 +1,16 @@
-"""face-recognition service"""
-
 import face_recognition
+import numpy as np
+import json
 
 class FaceRecognitionService():
 
-    "This is a generic class containing all face-recognition provided by the server"
-
     def does_face_match(self, biometrics):
-        """
-        Determines if two face encodings represent the same person
 
-        Parameters:
-          
-
-        Returns:
-          Boolean: Pictures contain same person (true). Pictures contain different people (false).
-          None: Pictures contain 0 or multiple faces. File is not in allowed extensions
-        """
-        print(biometrics)
         # data format validation
-        image_encoding_1 = biometrics['biometrics'][0]['vector']
-        image_encoding_2 = biometrics['biometrics'][1]['vector']
+        image_encoding_1 = np.array(biometrics['biometrics'][0]['vector'])
+        image_encoding_2 = np.array(biometrics['biometrics'][1]['vector'])
 
-        results = face_recognition.compare_faces([image_encoding_1], image_encoding_2)
+        match = bool(face_recognition.compare_faces([image_encoding_1], image_encoding_2)[0])
+        result = {"face_match": match}
 
-        return results[0]
+        return result

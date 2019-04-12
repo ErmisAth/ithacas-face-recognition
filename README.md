@@ -2,15 +2,14 @@
 This is the code base for the face-recognition service
 
 ## How to start up the flask server:
-* For development:
 
-      python app.py -e development
+      python app.py
 
-* For production:
 
-      python app.py -e production
+server will spin up on http://localhost:5000
 
-In either way, the server will spin up on http://localhost:5000
 ## Available endpoints:
+* http://localhost:5000/serverAlive (get)
+* http://localhost:5000/api/face-recognition (post)
 
 

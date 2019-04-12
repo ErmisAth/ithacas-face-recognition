@@ -14,15 +14,6 @@ from controllers.FaceRecognitionController import FaceRecognitionController
 from config import MAINCONFIGURATION
 
 def handleInput(argv):
-    """
-    Handles command line input of start-up command 
-
-    Parameters:
-      argv[1:] command line inputs
-
-    Returns:
-      CONFIGURATION: Object containing the server configuration
-    """
 
     # initialise args
     username = ''
@@ -55,16 +46,6 @@ def handleInput(argv):
     return config
 
 def main(argv):
-
-    """
-    Handles command line input of start-up command 
-
-    Parameters:
-      argv[1:] command line inputs
-
-    Returns:
-      CONFIGURATION: Object containing the server configuration
-    """
 
     # create flask app and configuration
 

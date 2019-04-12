@@ -16,6 +16,8 @@ class FaceRecognitionController:
             self.app.logger.info('---> run post command')
             try:
                 data = request.get_data()
+                data = data.decode('utf-8')
+                data = json.loads(data)
             except:
                 return 'request failed: post body did not match requirements', 422
             try:
@@ -23,8 +25,9 @@ class FaceRecognitionController:
                 if (not response):
                     abort(500, 'empty response: face-recognition failed')
             except ValueError:
-                abort(500, 'Error Response: Posting new change request failed!')
+                abort(500, 'error response: face-recognition failed')
             
-            response = make_response(json.dumps({'face_match': response}), 200)
+            response = make_response(json.dumps(response), 200)
             response.headers['content-type'] = self.contentType
+
             return response
