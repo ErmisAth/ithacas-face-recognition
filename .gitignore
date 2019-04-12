@@ -103,11 +103,11 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# png images
-*.png
-
 # mac metadata
 .DS_Store
 
 # Visual Studio Code settings
 .vscode
+
+# dev folder
+dev/
