@@ -1,6 +1,8 @@
 import json
 from flask import abort, make_response, request
+from jsonschema import validate
 from services.FaceRecognitionService import FaceRecognitionService
+from schemas.BiometricsSchema import Biometrics
 
 class FaceRecognitionController:
     def __init__(self, app, config, prefix):
@@ -16,10 +18,12 @@ class FaceRecognitionController:
             self.app.logger.info('---> run post command')
             try:
                 data = request.get_data()
-                data = data.decode('utf-8')
                 data = json.loads(data)
+                validate(data, schema=Biometrics)
             except:
-                return 'request failed: post body did not match requirements', 422
+                abort(500, 'error response: face-recognition failed')
+            if not data['success']:
+                abort(500, 'error response: face-recognition failed')
             try:
                 response = self.fRService.does_face_match(data)
                 if (not response):
