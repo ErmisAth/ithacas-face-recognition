@@ -15,12 +15,10 @@ from config import MAINCONFIGURATION
 
 def handleInput(argv):
 
-    # initialise args
     username = ''
     password = ''
     outputFile = 'server.log'
 
-    # parse args
     try:
         (opts,_) = getopt(argv, 'u:p:o:', ['username=', 'password=', 'outputFile='])
     except GetoptError:
@@ -35,10 +33,8 @@ def handleInput(argv):
         elif opt in ('-o', '--outputFile'):
             outputFile = arg
 
-    # base64 encoding for credentials
     output = b64encode(bytes(username + ':' + password, 'utf-8'))
-    
-    # load configuration
+
     config = MAINCONFIGURATION
     config.authorization = 'Basic ' + output.decode()
     config.outputFile = outputFile
@@ -46,35 +42,22 @@ def handleInput(argv):
     return config
 
 def main(argv):
-
-    # create flask app and configuration
-
     ### see if I need configs
     app = Flask(__name__)
     config = handleInput(argv)
-
     # create FaceRecognitionController
-    fRController = FaceRecognitionController(
-        app,
-        config,
-        prefix='/api/face-recognition'
-    )
+    fRController = FaceRecognitionController(app, config, prefix='/api/face-recognition')
     fRController.createRoutes()
-
     # create a file to store weblogs and delete old content
-    log = open(config.outputFile, 'w')
-    log.seek(0)
-    log.truncate()
-    log.write("Python Server for Interational Travel CSC Log\n")
-    log.close()
-
+    log = open(config.outputFile, 'w'); log.seek(0); log.truncate()
+    log.write("Python Server for Interational Travel CSC Log\n"); log.close()
     # set loghandling and formatting on the log file
     log_handler = RotatingFileHandler(config.outputFile, maxBytes =1000000, backupCount=1)
     formatter = logging.Formatter("%(message)s")
     log_handler.setFormatter(formatter)
     app.logger.setLevel(logging.DEBUG)
     app.logger.addHandler(log_handler)
-
+    # create server alive route
     @app.route('/serverAlive', methods=['GET'])
     def amIAlive():
         return json.dumps({'message': 'I am alive'}), 200

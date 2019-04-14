@@ -17,21 +17,15 @@ class FaceRecognitionController:
             self.app.logger.info('=> start of face-recognition endpoint')
             self.app.logger.info('---> run post command')
             try:
-                data = request.get_data()
-                data = json.loads(data)
+                data = json.loads(request.get_data())
                 validate(data, schema=Biometrics)
-            except:
-                abort(500, 'error response: face-recognition failed')
-            if not data['success']:
-                abort(500, 'error response: face-recognition failed')
-            try:
+                if not data['success']:
+                    abort(500, 'error response: face-recognition failed')
                 response = self.fRService.does_face_match(data)
                 if (not response):
                     abort(500, 'empty response: face-recognition failed')
-            except ValueError:
+            except:
                 abort(500, 'error response: face-recognition failed')
-            
             response = make_response(json.dumps(response), 200)
             response.headers['content-type'] = self.contentType
-
             return response
