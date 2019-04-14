@@ -14,20 +14,14 @@ from controllers.FaceRecognitionController import FaceRecognitionController
 from config import MAINCONFIGURATION
 
 def handleInput(argv):
-    username = ''
-    password = ''
     outputFile = 'server.log'
     try:
-        (opts,_) = getopt(argv, 'u:p:o:', ['username=', 'password=', 'outputFile='])
+        (opts,_) = getopt(argv, 'o:', ['outputFile='])
     except GetoptError:
-        print('app.py -u <username> -p <password> -o <outputFile>')
+        print('app.py -o <outputFile>')
         sys.exit(2)
     for opt, arg in opts:
-        if opt in ('-u', '--username'):
-            username = arg
-        elif opt in ('-p', '--password'):
-            password = arg
-        elif opt in ('-o', '--outputFile'):
+        if opt in ('-o', '--outputFile'):
             outputFile = arg
     output = b64encode(bytes(username + ':' + password, 'utf-8'))
     config = MAINCONFIGURATION
