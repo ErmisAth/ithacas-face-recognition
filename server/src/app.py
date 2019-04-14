@@ -14,17 +14,14 @@ from controllers.FaceRecognitionController import FaceRecognitionController
 from config import MAINCONFIGURATION
 
 def handleInput(argv):
-
     username = ''
     password = ''
     outputFile = 'server.log'
-
     try:
         (opts,_) = getopt(argv, 'u:p:o:', ['username=', 'password=', 'outputFile='])
     except GetoptError:
         print('app.py -u <username> -p <password> -o <outputFile>')
         sys.exit(2)
-
     for opt, arg in opts:
         if opt in ('-u', '--username'):
             username = arg
@@ -32,17 +29,13 @@ def handleInput(argv):
             password = arg
         elif opt in ('-o', '--outputFile'):
             outputFile = arg
-
     output = b64encode(bytes(username + ':' + password, 'utf-8'))
-
     config = MAINCONFIGURATION
     config.authorization = 'Basic ' + output.decode()
     config.outputFile = outputFile
-
     return config
 
 def main(argv):
-    ### see if I need configs
     app = Flask(__name__)
     config = handleInput(argv)
     # create FaceRecognitionController

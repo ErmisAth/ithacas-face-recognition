@@ -14,11 +14,8 @@ class FaceRecognitionController:
     def createRoutes(self):
         @self.app.route(self.prefix, methods=['POST'])
         def recogniseFace():
-            self.app.logger.info('=> start of face-recognition endpoint')
-            self.app.logger.info('---> run post command')
             try:
-                data = json.loads(request.get_data())
-                validate(data, schema=Biometrics)
+                data = json.loads(request.get_data()); validate(data, schema=Biometrics)
                 if not data['success']:
                     abort(500, 'error response: face-recognition failed')
                 response = self.fRService.does_face_match(data)
