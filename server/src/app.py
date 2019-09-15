@@ -14,6 +14,8 @@ from controllers.FaceRecognitionController import FaceRecognitionController
 from config import MAINCONFIGURATION
 
 def handleInput(argv):
+    username = ''
+    password = ''
     outputFile = 'server.log'
     try:
         (opts,_) = getopt(argv, 'o:', ['outputFile='])
