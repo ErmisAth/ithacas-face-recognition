@@ -1,4 +1,4 @@
 Flask==1.0.2
 face-recognition==1.2.3
-numpy==1.13.3
+numpy==1.22.0
 gevent==1.2.2
